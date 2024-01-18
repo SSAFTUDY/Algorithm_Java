@@ -25,7 +25,6 @@ public class SWEA1288 {
 		return num;
 	}
 	
-
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int T = Integer.parseInt(br.readLine());
