@@ -10,19 +10,16 @@ public class Solution {
 
 		for (int tc = 1; tc <= T; tc++) {
 			String managers = br.readLine();
-			int[] managerBit = new int[managers.length()];
 			int[][] dp = new int[managers.length()][16];
 			long res = 0;
 
-			for (int i = 0; i < managers.length(); i++)
-				managerBit[i] = 1 << managers.charAt(i) - 'A';
 			for (int caseBit = 1; caseBit < 16; caseBit++)
-				if (caseBit % 2 == 1 && (caseBit & managerBit[0]) > 0)
+				if (caseBit % 2 == 1 && (caseBit & (1 << managers.charAt(0) - 'A')) > 0)
 					dp[0][caseBit] = 1;
 
 			for (int i = 1; i < dp.length; i++)
 				for (int caseBit = 1; caseBit < 16; caseBit++)
-					if ((caseBit & managerBit[i]) > 0)
+					if ((caseBit & (1 << managers.charAt(i) - 'A')) > 0)
 						for (int preCaseBit = 1; preCaseBit < 16; preCaseBit++)
 							if ((caseBit & preCaseBit) > 0)
 								dp[i][caseBit] = (dp[i][caseBit] + dp[i - 1][preCaseBit]) % P;
