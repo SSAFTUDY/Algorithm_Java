@@ -1,10 +1,8 @@
-package study_algorithm_b;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class boj_1406 {
+public class Boj_1406 {
 	public static class Node {
 		char word;
 		Node left;
@@ -35,43 +33,59 @@ public class boj_1406 {
 
 		public void delete() {
 			// length == 0일 때
-			if (length == 0 || cursor.left == null)
-				return;
-
-			if (length == 1) {
-				length = 0;
+			if (length == 0 || cursor.left == null) {
 				return;
 			}
 
-			// 일반적인 경우
-			cursor.left.right = cursor.right;
-			cursor.right.left = cursor.left;
-			cursor = cursor.left;
+			if (cursor.left.left == null) {
+				cursor.left = null;
+				start = cursor;
+			} else {
+				cursor.left.left.right = cursor;
+				cursor.left = cursor.left.left;
+			}
 			length--;
 		}
 
 		public void add(String string) {
+			if(length == MAX)
+				return;
+			
 			// length == 0일 때
 			if (length == 0) {
 				init(string);
+				return;
 			}
-
+			
 			// 일반적인 경우
-			Node right = cursor.right;
+			Node tmp = new Node();
+			tmp.word = string.charAt(0);
 
-			for (int i = 0; i < string.length(); i++) {
-				Node tmp = new Node();
+			if (cursor.left == null) {
+				start = tmp;
+				tmp.right = cursor;
+				cursor.left = tmp;
+			} else {
+				tmp.left = cursor.left;
+				tmp.right = cursor;
+				cursor.left.right = tmp;
+				cursor.left = tmp;
+			}
+			length++;
+
+			for (int i = 1; i < string.length(); i++) {
+				tmp = new Node();
 				tmp.word = string.charAt(i);
 
-				cursor.right = tmp;
-				tmp.left = cursor;
-				cursor = tmp;
+				tmp.right = cursor;
+				tmp.left = cursor.left;
+				tmp.left.right = tmp;
+				cursor.left = tmp;
+				
+				length++;
+				if(length == MAX)
+					break;
 			}
-			cursor.right = right;
-			if (cursor.right != null) {
-				cursor.right.left = cursor;
-			}
-
 		}
 
 		private void init(String string) {
@@ -87,6 +101,12 @@ public class boj_1406 {
 				cursor.right = tmp;
 				cursor = tmp;
 			}
+			// 빈 노드 추가
+			tmp = new Node();
+			tmp.left = cursor;
+			cursor.right = tmp;
+			cursor = tmp;
+
 			length = string.length();
 		}
 
@@ -119,6 +139,7 @@ public class boj_1406 {
 			sb.append(node.word);
 			node = node.right;
 		}
+		sb.deleteCharAt(sb.length() - 1);
 		System.out.println(sb);
 	}
 }
