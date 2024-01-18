@@ -22,9 +22,7 @@ public class Solution {
 
 			for (int i = 1; i < dp.length; i++)
 				for (int caseBit = 1; caseBit < 16; caseBit++)
-					if ((caseBit & managerBit[i]) == 0)
-						dp[i][caseBit] = 0;
-					else
+					if ((caseBit & managerBit[i]) > 0)
 						for (int preCaseBit = 1; preCaseBit < 16; preCaseBit++)
 							if ((caseBit & preCaseBit) > 0)
 								dp[i][caseBit] = (dp[i][caseBit] + dp[i - 1][preCaseBit]) % P;
