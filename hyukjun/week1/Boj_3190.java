@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.util.StringTokenizer;
 
 public class Boj_3190 {
@@ -31,14 +30,14 @@ public class Boj_3190 {
 			tail = head;
 		}
 
-		public void go(int row, int col) {
-			tail = tail.right;
-		}
-
 		public void headGo(int row, int col) {
 			Node next = new Node(row, col);
 			head.right = next;
 			head = next;
+		}
+		
+		public void tailGo() {
+			tail = tail.right;
 		}
 		
 		public boolean headCheck() {
@@ -56,23 +55,12 @@ public class Boj_3190 {
 			return true;
 		}
 	}
-
-	private final static String tc = "6\r\n" + 
-			"3\r\n" + 
-			"3 4\r\n" + 
-			"2 5\r\n" + 
-			"5 3\r\n" + 
-			"3\r\n" + 
-			"3 D\r\n" + 
-			"15 L\r\n" + 
-			"17 D";
 	
 	public static int[] drow = { 0, 1, 0, -1 };
 	public static int[] dcol = { 1, 0, -1, 0 };
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//		br = new BufferedReader(new StringReader(tc));
 		StringTokenizer st;
 
 		// get input
@@ -119,7 +107,7 @@ public class Boj_3190 {
 			if(apple[row][col]) {
 				apple[row][col] = false;
 			} else {
-				snake.go(row, col);
+				snake.tailGo();
 			}
 			
 			if(checkDirIdx < direction.length) {
