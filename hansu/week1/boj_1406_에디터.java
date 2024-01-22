@@ -4,7 +4,7 @@ import java.util.*;
 class MyStack<T> implements Iterable<T> {
 
 	private Object[] stack = new Object[10];
-	private int top = 0;
+	public int top = 0;
 
 	public boolean isEmpty() {
 		return top == 0;
@@ -54,23 +54,15 @@ public class Solution {
 
 		for (int i = 0; i < s.length(); i++) left.push(s.charAt(i));
 		for (int i = 0; i < N; i++) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			switch(st.nextToken()) {
-				case "L":
-					if (!left.isEmpty())
-						right.push(left.pop());
-					break;
-				case "D":
-					if (!right.isEmpty())
-						left.push(right.pop());
-					break;
-				case "B":
-					if (!left.isEmpty())
-						left.pop();
-					break;
-				default:
-					left.push(st.nextToken().charAt(0));
-			}
+			String line = br.readLine();
+			if (line.charAt(0) == 'L' && !left.isEmpty())
+				right.push(left.pop());
+			else if (line.charAt(0) == 'D' && !right.isEmpty())
+				left.push(right.pop());
+			else if (line.charAt(0) == 'B' && !left.isEmpty())
+				left.pop();
+			else if (line.charAt(0) == 'P')
+				left.push(line.charAt(2));
 		}
 		for (char c : left) sb.append(c);
 		while (!right.isEmpty()) sb.append(right.pop());
