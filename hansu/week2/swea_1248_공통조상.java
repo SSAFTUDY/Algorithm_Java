@@ -21,32 +21,34 @@ public class Solution {
     private static int getCommonAncestor1(int A, int B){
         BitSet bs = new BitSet();
 
-        while (true) {
-            if (bs.get(A)) return A;
+        while (A > 1 || B > 1) {
+            if (A > 1 && bs.get(A)) return A;
             bs.set(A);
-            if (bs.get(B)) return B;
+            if (B > 1 && bs.get(B)) return B;
             bs.set(B);
             A = parent[A];
             B = parent[B];
         }
+        return 1;
     }
 
     // 2. bit 연산을 이용한 풀이
     private static int getCommonAncestor2(int V, int A, int B){
         long[] bits = new long[V / 64 + 1];
 
-        while (true) {
-            if ((bits[A / 64] & (1L << A % 64)) > 0) return A;
-            bits[A / 64] ^= (1L << A % 64);
-            if ((bits[B / 64] & (1L << B % 64)) > 0) return B;
-            bits[B / 64] ^= (1L << B % 64);
+        while (A > 1 || B > 1) {
+            if (A > 1 && (bits[A / 64] & (1L << A % 64)) > 0) return A;
+            bits[A / 64] |= (1L << A % 64);
+            if (B > 1 && (bits[B / 64] & (1L << B % 64)) > 0) return B;
+            bits[B / 64] |= (1L << B % 64);
             A = parent[A];
             B = parent[B];
         }
+        return 1;
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+   	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int T = Integer.parseInt(br.readLine());
 
@@ -66,11 +68,12 @@ public class Solution {
             for (int i = 0; i < E; i++)
                 union(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 
-            int res = getCommonAncestor1(A, B);
-//            int res = getCommonAncestor2(V, A, B);
+//            int res = getCommonAncestor1(A, B);
+            int res = getCommonAncestor2(V, A, B);
             sb.append('#').append(tc).append(' ').append(res).append(' ').append(subtreeSizes[res]).append('\n');
         }
+        
         System.out.println(sb);
     }
-
+    
 }
