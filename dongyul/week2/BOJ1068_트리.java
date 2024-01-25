@@ -72,7 +72,7 @@ public class Main {
             }
         }
 
-        //root 부터 시작하여 Stack에 넣으며 탐색 시작, 자식이 없으면 리프노드로 카운트, 있으면 스택에 넣어줌
+        //root 부터 시작하여 Stack 이용하여 DFS
         public int countLeap() {
             if(root == null){
                 return 0;
