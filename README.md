@@ -10,7 +10,7 @@
 ### Commit Convension
 - [success/fail] 플랫폼_문제번호_문제이름 | 풀이 간단 설명
   - 예시: [success] boj_1111_aaaa | 그리디
-- 검색없이 문제를 풀었을 경우 success, 풀지 못했거나 검색해서 풀었을 경우 fail
+- 검색없이 문제를 풀었을 경우 success, 풀지 못했으면 fail
 
 <br/>
 
