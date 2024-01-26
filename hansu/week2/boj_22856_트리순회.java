@@ -4,7 +4,9 @@ import java.util.*;
 class Tree{
 	
 	private class Node{
+		public int n;
 		public Node lc, rc;
+		Node(int n){this.n=n;}
 	}
 	
 	private int size;
@@ -17,7 +19,7 @@ class Tree{
 		nodes = new Node[size + 1];
 		
 		for (int i = 1; i <= size; i++)
-			nodes[i] = new Node();
+			nodes[i] = new Node(i);
 	}
 	
 	public void addChildren(int parent, int lc, int rc) {
@@ -26,28 +28,35 @@ class Tree{
 	}
 	
 	public int getCircuitCnt() {
-		this.circuitCnt = 0;
+		this.circuitCnt = -1;
 		this.visitedCnt = 0;
 		
 		pseudoInorderCircuit(nodes[1]);
-		return this.circuitCnt - 1;
+		return this.circuitCnt;
 	}
 
 	private void pseudoInorderCircuit(Node node) {
-		visitedCnt++;
 		circuitCnt++;
-
-		if (node.lc != null) {
-			pseudoInorderCircuit(node.lc);
-			if (visitedCnt < size)
-				circuitCnt++;
-		}
-		if (node.rc != null) {
-			pseudoInorderCircuit(node.rc);
-			if (visitedCnt < size)
-				circuitCnt++;
-		}
+		visitedCnt++;
 		
+		if (node.lc != null)
+			pseudoInorderCircuit(node.lc);
+		if (node.rc != null)
+			pseudoInorderCircuit(node.rc);
+		
+		if (visitedCnt == size)
+			return;
+		/*
+		 * 1 2 3
+		 * 2 4 5
+		 * 3 6 7
+		 * 4 -1 -1
+		 * 5 -1 -1
+		 * 6 -1 -1
+		 * 7 -1 -1
+		 * 마지막에 부모 가고 나서 끝나야됨
+		 */
+		circuitCnt++;
 	}
 	
 }
@@ -64,7 +73,6 @@ public class Solution {
         	int parent = Integer.parseInt(st.nextToken()),
     			lc = Integer.parseInt(st.nextToken()),
     			rc = Integer.parseInt(st.nextToken());
- 
         	tree.addChildren(parent, lc, rc);
         }
         
