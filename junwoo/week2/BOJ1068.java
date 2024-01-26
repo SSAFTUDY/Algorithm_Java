@@ -3,7 +3,7 @@ import java.lang.*;
 import java.io.*;
 
 // The main method must be in a class named "Main".
-public class Main {
+public class Main { 
 	static int root;
 	static int[] leaf; // 하위 트리의 리프 노드의 수 (본인이 리프 노드라면 1 값을 갖는다.)
 	static int[] child; // 직속 자식의 수
