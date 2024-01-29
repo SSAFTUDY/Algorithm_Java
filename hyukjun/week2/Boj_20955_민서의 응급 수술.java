@@ -1,11 +1,11 @@
-package baekjoon;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -15,7 +15,7 @@ public class Boj_20955 {
 
 	static boolean[] check;
 	static List<Integer>[] neighbor;
-	static Set<Integer> cycle;
+	static Set<Integer> union;
 	static int count = 0;
 
 	public static void main(String[] args) throws IOException {
@@ -46,11 +46,10 @@ public class Boj_20955 {
 			if (check[i]) {
 				continue;
 			}
+			union = new HashSet<>();
 			check[i] = true;
-			cycle = new HashSet<>();
-			dfs(i, -1);
-			// 집합 안에서 cycle을 끊는 연산의 횟수를 더해줌
-			count += cycle.size() / 2;
+			union.add(i);
+			bfs(i);
 			// 집합의 갯수를 더해줌
 			count++;
 		}
@@ -60,22 +59,24 @@ public class Boj_20955 {
 		System.out.println(count - 1);
 	}
 
-	private static void dfs(int startIdx, int parent) {
-		for (int i = 0; i < neighbor[startIdx].size(); i++) {
-			int adj = neighbor[startIdx].get(i);
-			if(adj == parent) {
-				continue;
-			}
-			
-			if(!check[adj]) {
-				check[adj] = true;
-				dfs(adj, startIdx);
-			} else {
-				// dfs 순회 시 parent가 아닌데 이미 check된 노드가 나온다면 cycle
-				cycle.add(startIdx);
-				cycle.add(adj);
+	private static void bfs(int startIdx) {
+		int vertexCount = 0;
+		Queue<Integer> queue = new LinkedList<>();
+		queue.add(startIdx);
+		while(!queue.isEmpty()) {
+			int cur = queue.poll();
+			for (int i = 0; i < neighbor[cur].size(); i++) {
+				int adj = neighbor[cur].get(i);
+				vertexCount++;
+				if(!check[adj]) {
+					check[adj] = true;
+					union.add(adj);
+					queue.add(adj);
+				}
 			}
 		}
+		// 간선의 갯수가 노드의 갯수 - 1보다 많을 경우 그만큼을 삭제하는 연산 횟수
+		count += (vertexCount / 2 - union.size() + 1);
 	}
 
 }
