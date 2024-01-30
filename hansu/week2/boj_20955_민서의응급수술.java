@@ -6,7 +6,7 @@ public class Solution {
 	/** 연산 횟수 */
 	private static int res = 0;
 	private static int parent[];
-	
+
 	/** 노드 연결
 	 * 이미 같은 그룹이라면 연결 안함 (끊기 연산) */
 	private static void union(int a, int b) {
