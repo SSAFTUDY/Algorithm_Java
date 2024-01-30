@@ -19,7 +19,7 @@ public class Solution {
     }
 
     /** 하나씩 거슬러 올라가며 공통 조상 탐색 */
-    private static int getCommonAncestor1(int A, int B){
+    private static int getCommonAncestor(int A, int B){
         BitSet bs = new BitSet();
 
         while (A > 1 || B > 1) {
@@ -54,8 +54,7 @@ public class Solution {
             for (int i = 0; i < E; i++)
                 union(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 
-//            int res = getCommonAncestor1(A, B);
-            int res = getCommonAncestor2(V, A, B);
+            int res = getCommonAncestor(A, B);
             sb.append('#').append(tc).append(' ').append(res).append(' ').append(subtreeSizes[res]).append('\n');
         }
         
