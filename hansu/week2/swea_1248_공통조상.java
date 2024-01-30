@@ -57,7 +57,7 @@ public class Solution {
             int res = getCommonAncestor(A, B);
             sb.append('#').append(tc).append(' ').append(res).append(' ').append(subtreeSizes[res]).append('\n');
         }
-        
+    
         System.out.println(sb);
     }
     
