@@ -71,5 +71,5 @@ public class Main {
         //answer
         System.out.println(tree.getCircuitCnt());
     }
-
+    
 }
