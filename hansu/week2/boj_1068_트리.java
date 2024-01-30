@@ -8,8 +8,7 @@ public class Solution {
 	
 	/** (재귀)
 	 * 자기 자신을 부모로 갖게해서 getLeavesNum에서 제외되도록 함
-	 * rmNode를 부모로 갖는 노드들도 재귀적으로 삭제  
-	 */
+	 * rmNode를 부모로 갖는 노드들도 재귀적으로 삭제 */
 	private static void removeSubtree(int rmNode) {
 		for (int i = 0; i < N; i++)
 			if (parent[i] == rmNode)

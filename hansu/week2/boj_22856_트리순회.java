@@ -4,28 +4,26 @@ import java.util.*;
 
 class Tree{
 
-    private final int SIZE;
+    /**
+     * tree[parent][0] : 왼쪽 자식
+     * tree[parent][1] : 오른쪽 자식 */
+    private int[][] tree;
     private int circuitCnt; //이동 횟수
     private int visitedCnt; //(중위 순회시)방문 노드 수
-    private int[][] tree;
+    private final int SIZE;
 
     public Tree(int size) {
         SIZE = size;
         tree = new int[size + 1][];
     }
 
-    /**
-     * tree[parent][0] : 왼쪽 자식
-     * tree[parent][1] : 오른쪽 자식
-     */
     public void addChildren(int parent, int lc, int rc) {
         tree[parent] = new int[]{lc, rc};
     }
 
-    /** 메인 알고리즘을 담은 Wrapping 메소드 */
+    /** 이동경로를 반환하는 Wrapping 메소드 */
     public int getCircuitCnt() {
-        //루트에서 출발할 때(메소드가 시작할 때)의 움직임 고려
-        this.circuitCnt = -1;
+        this.circuitCnt = -1; //메인 알고리즘에서 0부터 시작하도록 세팅
         this.visitedCnt = 0;
 
         pseudoInorderCircuit(1);
@@ -41,9 +39,11 @@ class Tree{
         //들어갈 때 체크
         circuitCnt++;
 
-        pseudoInorderCircuit(tree[node][0]);
-        if (visitedCnt++ == SIZE) return; //중위 순회 종료 조건
-        pseudoInorderCircuit(tree[node][1]);
+        pseudoInorderCircuit(tree[node][0]); //왼쪽 subtree 순회
+        if (visitedCnt++ == SIZE) {   //현재 노드 방문여부 체크
+            return;                   //(모두 순회시 재귀 탈출)
+        }
+        pseudoInorderCircuit(tree[node][1]); //오른쪽 subtree 순회
 
         //나갈 때 체크(순회 종료시 실행 X)
         if (visitedCnt < SIZE)

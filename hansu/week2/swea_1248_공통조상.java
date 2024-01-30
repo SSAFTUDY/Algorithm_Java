@@ -10,6 +10,7 @@ public class Solution {
         updateSubtreeSize(c, subtreeSizes[c]);
     }
 
+    /** 각 노드가 갖고 있는 subtree 크기 업데이트 */
     private static void updateSubtreeSize(int c, int addedChildren){
         while (c != parent[c]) {
             subtreeSizes[parent[c]] += addedChildren;
@@ -17,7 +18,7 @@ public class Solution {
         }
     }
 
-    // 1. java.util.BitSet을 이용한 풀이
+    /** 하나씩 거슬러 올라가며 공통 조상 탐색 */
     private static int getCommonAncestor1(int A, int B){
         BitSet bs = new BitSet();
 
@@ -26,21 +27,6 @@ public class Solution {
             bs.set(A);
             if (B > 1 && bs.get(B)) return B;
             bs.set(B);
-            A = parent[A];
-            B = parent[B];
-        }
-        return 1;
-    }
-
-    // 2. bit 연산을 이용한 풀이
-    private static int getCommonAncestor2(int V, int A, int B){
-        long[] bits = new long[V / 64 + 1];
-
-        while (A > 1 || B > 1) {
-            if (A > 1 && (bits[A / 64] & (1L << A % 64)) > 0) return A;
-            bits[A / 64] |= (1L << A % 64);
-            if (B > 1 && (bits[B / 64] & (1L << B % 64)) > 0) return B;
-            bits[B / 64] |= (1L << B % 64);
             A = parent[A];
             B = parent[B];
         }

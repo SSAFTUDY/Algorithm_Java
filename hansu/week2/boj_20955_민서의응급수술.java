@@ -8,8 +8,7 @@ public class Solution {
 	private static int parent[];
 	
 	/** 노드 연결
-	 * 이미 같은 그룹이라면 연결 안함 (끊기 연산)
-	 */
+	 * 이미 같은 그룹이라면 연결 안함 (끊기 연산) */
 	private static void union(int a, int b) {
 		int x = find(a), y = find(b);
 		
@@ -28,8 +27,7 @@ public class Solution {
 	
 	/** 서로 연결되지 않은 그룹 연결 연산
 	 * 연산 횟수: (그룹의 수) - 1
-	 * 그룹의 수: (루트노드의 수)
-	 */
+	 * 그룹의 수: (루트노드의 수) */
 	private static void linkEachGroups() {
 		int root = 0;
 		
