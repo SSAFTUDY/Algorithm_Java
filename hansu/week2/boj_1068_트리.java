@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Solution {
-	
+
 	private static int[] parent;
 	private static int N;
 	
