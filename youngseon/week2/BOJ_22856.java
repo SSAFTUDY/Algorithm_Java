@@ -29,7 +29,7 @@ public class BOJ_22856 {
 
 		}
 		inOrder(1); // 루트 노드는 항상 1번 노드이므로
-		System.out.println(list);
+//		System.out.println(list);
 		System.out.println(list.size() - 1);
 
 	}
@@ -49,9 +49,9 @@ public class BOJ_22856 {
 				count++;
 
 				inOrder(tree[now][0]);
-				if (count == N - 1) {
-					return;
-				}
+//				if (count == N - 1) {
+//					return;
+//				}
 				list.add(now);
 
 			}
