@@ -44,7 +44,7 @@ public class BOJ_1976 {
 	}
 
 	public static int find(int a) {  // find 연산
-		if (a == bossNode[a] || a == 1) {
+		if (a == bossNode[a]) {
 			return a;
 		}
 		return bossNode[a] = find(bossNode[a]);
