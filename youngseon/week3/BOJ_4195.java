@@ -1,3 +1,4 @@
+package com.ssafy.ws.step2;
 
 import java.io.*;
 import java.util.*;
@@ -5,7 +6,8 @@ import java.util.*;
 public class BOJ_4195 {
 
 	static HashMap<String, Integer> friend; // 친구 이름과 parent 에서의 index 저장
-	static int[] parent = new int[100000];
+	static int[] parent;  // 대표 노드 배열
+	static int[] result;  // 이 노드를 대표 노드로 삼고있는 노드들의 개수
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -13,16 +15,17 @@ public class BOJ_4195 {
 
 		int tc = Integer.parseInt(br.readLine());
 
-		for (int i = 0; i < tc; i++) {
+		for (int i = 0; i < tc; i++) { // 테스트 케이스 크기 범위 안나와 있음
 
 			int count = 0; // 현재 친구의 수
-			for (int k = 0; k < 100000; k++) {
-				parent[k] = k; // parent 배열 초기화
-			}
+
 			friend = new HashMap<String, Integer>();
 
 			int F = Integer.parseInt(br.readLine());
-			for (int j = 0; j < F; j++) {
+			parent = new int[F * 2];
+			result = new int[F * 2]; 
+			
+			for (int j = 0; j < F; j++) { // 100000
 				st = new StringTokenizer(br.readLine());
 				String name1 = st.nextToken();
 				String name2 = st.nextToken();
@@ -34,6 +37,8 @@ public class BOJ_4195 {
 				} else {
 					friend.put(name1, count);
 					idx1 = count;
+					parent[count] = count;
+					result[count] = 1;  // 대표노드 1개로 초기화
 					count++;
 				}
 
@@ -42,33 +47,33 @@ public class BOJ_4195 {
 				} else {
 					friend.put(name2, count);
 					idx2 = count;
+					parent[count] = count;
+					result[count] = 1;
 					count++;
 				}
 
-				union(idx1, idx2); // 대표노드 합치기
-				
-				int p = find(parent[idx1]);
-				int result = 0;
-				for (int l = 0; l < count; l++) { // 대표 노드가 같으면 친구 네트워크 인원 추가
-					if(find(l) == p) {
-						result++;
-					}
-				}
-				System.out.println(result);
+				System.out.println(union(idx1, idx2)); // 대표노드 합치기
 			}
-			
 		}
 	}
 
-	public static void union(int a, int b) { // union 연산
+	public static int union(int a, int b) { // union 연산
 		a = find(a);
 		b = find(b);
-		if (a != b) {
-			parent[b] = a;
+		if(a > b) {  // 값이 작은 것을 대표노드로 삼는다.-> b가 대표
+			parent[a] = b;
+			result[b] += result[a];
+			return result[b];
 		}
+		if(a < b) {
+			parent[b] = a;
+			result[a]+= result[b];
+			return result[a];
+		}
+		return result[a];  // 값이 같은 경우
 	}
 
-	public static int find(int n) { // union 연산
+	public static int find(int n) { // find 연산
 		if (n == parent[n]) {
 			return n;
 		}
