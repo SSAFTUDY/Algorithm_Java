@@ -45,6 +45,11 @@ public class SWEA_14413 {
 		System.out.println(sb);
 	}
 
+	// start에는 배열에서 가장 처음 시작되는 문자가 들어간다
+	// 만약 start가 검은색으로 칠해져 있다고 가정
+	// 행과 열의 인덱스를 합한 값이 짝수인 곳은 검은색으로 칠해져 있어야 함
+	// 행과 열의 인덱스를 합한 값이 홀수인 곳은 흰색으로 칠해져 있어야 함
+	// 처음 시작되는 문자가 ?일 경우에는 처음 시작 지점을 검은색으로 칠했을 때와 흰색으로 칠했을 때 두가지 경우로 나눔
 	private static boolean find(char[][] arr, char start) {
 		char evenSum = start;
 		char oddSum;
