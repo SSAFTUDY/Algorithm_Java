@@ -26,18 +26,6 @@ public class Solution {
     static boolean[][] visited;
     static int[] dx = {0, 0, -1, 1};
     static int[] dy = {1, -1, 0, 0};
-
-  //주변에 같은 문자가 있는지 확인
-    static boolean check(int x, int y, char ch) {
-        for (int i = 0; i < 4; i++) {
-            if (x + dx[i] >= 0 && x + dx[i] < N && y + dy[i] >= 0 && y + dy[i] < M) {
-                if (arr[x + dx[i]][y + dy[i]] == ch) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
  
     static boolean BFS(Node start) {
         Deque<Node> deque = new ArrayDeque<>();
@@ -46,11 +34,12 @@ public class Solution {
             Node curr = deque.removeFirst();
             int x = curr.x;
             int y = curr.y;
-            visited[x][y] = true;
-            arr[x][y] = curr.value;
-            if (!check(x, y, curr.value)) {
+         //이번에 입력할 곳이 ?가 아니거나, 다른 문자가 이미 있는 경우
+            if(arr[x][y] != '?' && arr[x][y] != curr.value){
                 return false;
             }
+            visited[x][y] = true;
+            arr[x][y] = curr.value;
             for (int i = 0; i < 4; i++) {
                 if (x + dx[i] >= 0 && x + dx[i] < N && y + dy[i] >= 0 && y + dy[i] < M && !visited[x + dx[i]][y + dy[i]]) {
                     if (curr.value == '.') {
@@ -83,6 +72,7 @@ public class Solution {
                     arr[i][j] = str.charAt(j);
                 }
             }
+ 
             boolean flag = true;
             loopOut:
             for (int i = 0; i < N; i++) {
@@ -103,5 +93,5 @@ public class Solution {
         System.out.println(sb);
  
     }
-
+ 
 }
