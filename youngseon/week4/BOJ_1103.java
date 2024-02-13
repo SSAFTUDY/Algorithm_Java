@@ -34,34 +34,36 @@ public class BOJ_1103 {
 			}
 		}
 		dfs(0, 0, 1);
-		System.out.println(result);
+		
+		System.out.println(dp[0][0]);
 
 	}
 
 	private static void dfs(int i, int j, int count) {
 
-		if (visited[i][j]) {
-			System.out.println(-1);
-			System.exit(0);
-		}
-		if (result < count) {
-			result = count;
-		}
-		if (arr[i][j] == -1) {
-			count--;
-			if (result < count) {
-				result = count;
-			}
-			return;
-		}
 		visited[i][j] = true;
+	
 		for (int n = 0; n < 4; n++) {
 			int new_x = i + dx[n] * arr[i][j];
 			int new_y = j + dy[n] * arr[i][j];
-
-			
+	
 			if (new_x >= 0 && new_x < N && new_y >= 0 && new_y < M && arr[new_x][new_y] != -1) {
+				
+				if (visited[new_x][new_y]) {
+					System.out.println(-1);
+					System.exit(0);
+				}
+				
+				if(dp[new_x][new_y] ==0) {
+					dfs(new_x, new_y, count + 1);
+				}
+				
+				dp[i][j] = Math.max(dp[i][j], dp[new_x][new_y] + 1);
 				dfs(new_x, new_y, count + 1);
+				
+			}
+			else {
+				dp[i][j] = Math.max(dp[i][j], 1);
 			}
 		}
 		visited[i][j] = false;
