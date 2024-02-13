@@ -39,9 +39,9 @@ public class Main {
 			int a = readInt()-1;
 			int b = readInt()-1;
 			int c = readInt();
-			for (Node v : neghibor[a]) {
-				if(v.idx == b) {if(c < v.cost) {v.cost = c;} continue;}
-			}
+//			for (Node v : neghibor[a]) {
+//				if(v.idx == b) {if(c < v.cost) {v.cost = c;} continue;}
+//			}
 			neghibor[a].add(new Node(b, c));
 		}
 		pq.add(new Node(start_node, 0)); dist[start_node] = 0;
@@ -81,9 +81,4 @@ public class Main {
                 n = (n<<3) + (n<<1) + (input&15);
         }
     }
-	
-	
-	
-	
-	
 }
