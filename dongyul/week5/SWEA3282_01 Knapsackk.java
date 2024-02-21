@@ -35,7 +35,7 @@ public class SWEA3282 {
             for (int i = 1; i <= N; i++) {
                 for (int j = 1; j <=K ; j++) {
                     if(v[i] <= j){   //현재 물건의 부피가 가방에 넣을 수 있는 최대 부피 보다 작은 경우
-                        dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-v[i]] + v[1]);
+                        dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-v[i]] + v[i]);
                     }else{
                         dp[i][j] = dp[i-1][j];
                     }
