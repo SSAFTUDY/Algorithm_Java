@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+// 22,736 kb, 117 ms
 public class SWEA_3282 {
 
 	static int[] V;
