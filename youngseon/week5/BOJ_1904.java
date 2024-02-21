@@ -1,5 +1,5 @@
 import java.io.*;
-
+// 15452 kb, 92 ms
 public class BOJ_1904 {
 
 	static int[] DP;
@@ -18,6 +18,6 @@ public class BOJ_1904 {
 
 		}
 
-		System.out.println(DP[N]% 15746);
+		System.out.println(DP[N]);
 	}
 }
