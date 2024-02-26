@@ -38,7 +38,6 @@ public class BOJ_10427 {
 						currentSum += arr[i] - arr[i - j - 1];
 					}
 					minSum = Math.min(minSum, currentSum);
-//					System.out.println("명령 : " + (choice + 1) + ", minSum = " + minSum);
 				}
 				output += minSum;
 			}
