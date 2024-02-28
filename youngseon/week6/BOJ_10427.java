@@ -2,45 +2,46 @@ import java.io.*;
 import java.util.*;
 
 public class BOJ_10427 {
-	static int result, selectCnt;
+
+	static long[] arr;
+	static long[] s;
+	static int N;
+	static long sum, minVal;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int T = Integer.parseInt(br.readLine());
-		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
 
 		for (int t = 0; t < T; t++) {
 
 			st = new StringTokenizer(br.readLine());
-			int N = Integer.parseInt(st.nextToken());
-			int[] arr = new int[N + 1];
-			int S = 0;
+			N = Integer.parseInt(st.nextToken());
+			arr = new long[N + 1];
+			s = new long[N + 1];
+			sum = 0;
 
 			for (int i = 1; i <= N; i++) {
 				arr[i] = Integer.parseInt(st.nextToken());
 			}
+			Arrays.sort(arr);
 
-			for (int i = 2; i <= N; i++) {
-				selectCnt = i;
-				result = Integer.MAX_VALUE;
-				boolean[] visited = new boolean[N + 1];
-				combination(arr, visited, 1, N, i, 0, 0);
-				S += result;
+			for (int i = 1; i <= N; i++) {
+				if (i == 1) {
+					s[i] = arr[i]; // 초기값 설정
+				} else {
+					s[i] = s[i - 1] + arr[i]; // 누적합 구하기
+				}
 			}
-			System.out.println(S);
-		}
-	}
 
-	static void combination(int[] arr, boolean[] visited, int start, int n, int r, int sum, int maxNum) {
-		if (r == 0) {
-			result = Math.min(result, selectCnt * maxNum - sum);
-		}
-
-		for (int i = start; i <= n; i++) {
-			visited[i] = true;
-			combination(arr, visited, i + 1, n, r - 1, sum + arr[i], Math.max(maxNum, arr[i]));
-			visited[i] = false;
+			for (int i = 2; i <= N; i++) { // i: 뽑는 개수
+				minVal = Long.MAX_VALUE;
+				for (int j = i; j <= N; j++) {
+					minVal = Math.min(minVal, arr[j] * i - (s[j] - s[j - i])); // 뽑힌 수 중 가장 큰 수 * i - (뽑힌 수 의 합)
+				}
+				sum += minVal;
+			}
+			System.out.println(sum);
 		}
 	}
 }
