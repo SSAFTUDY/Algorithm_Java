@@ -1,120 +1,140 @@
 /**
- * 메모리: 49,172kb
- * 시간: 2,704ms
+ * 메모리: 45,276kb
+ * 시간: 2,796ms
  */
 import java.io.*;
 import java.util.*;
 
-class MinHeap<T>{
-	
-	Comparator<T> comparator;
-	T[] heap;
-	int size;
-	
-	public MinHeap(int initialCapacity, Comparator<T> comparator) {
-		this.heap = (T[])new Object[initialCapacity + 1];
-		this.comparator = comparator;
-	}
-	
-	public void add(T val) {
-		heap[++size] = val;
-		percolateUp();
-	}
-	
-	public T remove() {
-		percolateDown();
-		return heap[size--];
-	}
-	
-	public boolean isEmpty() {
-		return size == 0;
-	}
-	
-	private void swap(int x, int y) {
-		T tmp = heap[x];
-		heap[x] = heap[y];
-		heap[y] = tmp;
-	}
-	
-	private void percolateUp() {
-		int idx = size;
-		
-		while (idx > 1 && comparator.compare(heap[idx], heap[idx / 2]) < 0) {
-			swap(idx, idx / 2);
-			idx /= 2;
-		}
-	}
-	
-	private void percolateDown() {
-		int idx = 1;
-		
-		swap(1, size);
-		while (2 * idx < size) {
-			int minChild = 2 * idx;
-			if (minChild + 1 < size && comparator.compare(heap[minChild + 1], heap[minChild]) < 0) {
-				minChild += 1;
-			}
-			
-			if (comparator.compare(heap[idx], heap[minChild]) < 0) {
-				return;
-			}
-			swap(idx, minChild);
-			idx = minChild;
-		}
-	}
-	
+/** 제네릭 타입 T가 Comparable을 상속받는 타입이라고 명시 */
+@SuppressWarnings("unchecked")
+class Heap<T extends Comparable<T>>{
+
+    private final Object[] heap;
+    private int size;
+
+    public Heap(int initialCapacity) {
+        this.heap = new Object[initialCapacity + 1];
+    }
+
+    public void add(T val) {
+        heap[++size] = val;
+        shiftUp();
+    }
+
+    public T remove() {
+        shiftDown();
+        return (T) heap[size--];
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    private void swap(int x, int y) {
+        Object tmp = heap[x];
+        heap[x] = heap[y];
+        heap[y] = tmp;
+    }
+
+    private void shiftUp() {
+        int idx = size;
+
+        while (idx > 1 && ((T) heap[idx]).compareTo((T) heap[idx / 2]) < 0) {
+            swap(idx, idx / 2);
+            idx /= 2;
+        }
+    }
+
+    private void shiftDown() {
+        int idx = 1;
+
+        swap(1, size);
+        while (2 * idx < size) {
+            int minChild = 2 * idx;
+            if (minChild + 1 < size && ((T) heap[minChild + 1]).compareTo((T) heap[minChild]) < 0) {
+                minChild += 1;
+            }
+
+            if (((T) heap[idx]).compareTo((T) heap[minChild]) < 0) {
+                return;
+            }
+            swap(idx, minChild);
+            idx = minChild;
+        }
+    }
+
 }
 
 public class Main {
-	
-	/** 각 컴퓨터의 {사용 종료 시간, 사용 횟수} 기록 */
-	private static int[][] computers;
-	private static int computerCnt;
-//	private static List<int[]> computers = new ArrayList<>();
-	
-	private static void takeSeat(int[] timestamp) {
-		//기존 컴퓨터 중 사용 가능한 컴퓨터 탐색
-		for (int i = 0; i < computerCnt; i++) {
-			if (computers[i][0] <= timestamp[0]) {
-				computers[i][0] = timestamp[1];
-				computers[i][1]++;
-				return;
-			}
-		}
 
-		//앉을 자리가 없다면 새 컴퓨터 추가
-		computers[computerCnt++] = new int[] {timestamp[1], 1};
-	}
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		int N = Integer.parseInt(br.readLine());
-		MinHeap<int[]> minHeap = new MinHeap<>(N, Comparator.comparingInt(o -> o[0]));
-		
-		//parse inputs
-		for (int i = 0; i < N; i++) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int start = Integer.parseInt(st.nextToken());
-			int end = Integer.parseInt(st.nextToken());
-			
-			minHeap.add(new int[] {start, end});
-		}
-		
-		//run
-		computers = new int[N][];
-		computers[computerCnt++] = new int[2];
-		while(!minHeap.isEmpty()) {
-			int[] timestamp = minHeap.remove();
-			takeSeat(timestamp);
-		}
-		
-		//print
-		sb.append(computerCnt).append('\n');
-		for (int i = 0; i < computerCnt; i++) {
-			sb.append(computers[i][1]).append(' ');
-		}
-		System.out.println(sb);
-	}
-	
+    private static class Timestamp implements Comparable<Timestamp> {
+        int start, end;
+
+        public Timestamp(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+
+        @Override
+        public int compareTo(Timestamp o) {
+            return start - o.start;
+        }
+    }
+
+    private static class Computer {
+        int endTime, numOfUser;
+
+        public Computer(int endTime, int numOfUser) {
+            this.endTime = endTime;
+            this.numOfUser = numOfUser;
+        }
+    }
+
+    /** 각 컴퓨터의 {사용 종료 시간, 사용 횟수} 기록 */
+    private static List<Computer> computers;
+
+    private static void takeSeat(Timestamp timestamp) {
+        //기존 컴퓨터 중 사용 가능한 컴퓨터 탐색
+        for (Computer computer : computers) {
+            if (computer.endTime <= timestamp.start) {
+                computer.endTime = timestamp.end;
+                computer.numOfUser++;
+                return;
+            }
+        }
+
+        //앉을 자리가 없다면 새 컴퓨터 추가
+        computers.add(new Computer(timestamp.end, 1));
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        int N = Integer.parseInt(br.readLine());
+        Heap<Timestamp> minHeap = new Heap<>(N);
+
+        //parse inputs
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+
+            minHeap.add(new Timestamp(start, end));
+        }
+
+        //run
+        computers = new ArrayList<>();
+        while(!minHeap.isEmpty()) {
+            Timestamp timestamp = minHeap.remove();
+            takeSeat(timestamp);
+        }
+
+        //print
+        sb.append(computers.size()).append('\n');
+        for (Computer computer : computers) {
+            sb.append(computer.numOfUser).append(' ');
+        }
+        System.out.println(sb);
+    }
+
 }
