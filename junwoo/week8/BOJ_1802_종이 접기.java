@@ -4,7 +4,7 @@ import java.util.*;
 
 class Main {
 	static int T;
-	static String str;
+	static String str; 
 	
 	public static boolean check(int start, int size) {
 		for (int i = start; i < start + size; i++) {
