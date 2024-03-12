@@ -12,7 +12,7 @@ public class Solution {
         }
 
         for (int i = 1; i <= len; i++){
-            if ((s.charAt(mid - i) ^ s.charAt(mid + i)) == 0){
+            if ((s.charAt(mid - i) == s.charAt(mid + i))){
                 return false;
             }
         }
