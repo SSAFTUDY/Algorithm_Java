@@ -4,7 +4,7 @@ import java.util.*;
 
 class Main {
 	static int d;
-	static long x, y, locx, locy;
+	static long x, y, locx, locy; 
 	static StringBuilder str, new_str;
 	static String[][] arr;
 	
