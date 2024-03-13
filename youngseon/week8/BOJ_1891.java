@@ -1,9 +1,11 @@
+
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ_1891 {
 
-	static int find_x, find_y;
+	// long의 범위는 2^64
+	static long find_x, find_y;
 	static String result = "";
 
 	public static void main(String[] args) throws IOException {
@@ -11,18 +13,18 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
 
-		int d = Integer.parseInt(st.nextToken());
+		long d = Long.parseLong(st.nextToken());
 		String num = st.nextToken();
 
 		st = new StringTokenizer(br.readLine());
-		int x = Integer.parseInt(st.nextToken());
-		int y = Integer.parseInt(st.nextToken());
-		int size = (int) Math.pow(2, d);
+		long x = Long.parseLong(st.nextToken());
+		long y = Long.parseLong(st.nextToken());
+		long size = (long) Math.pow(2, d);
 
 		findLocation(num, size);
 
-		int new_x = find_x - y;
-		int new_y = find_y + x; 
+		long new_x = find_x - y;
+		long new_y = find_y + x; 
 
 		if (new_x < 0 || new_x >= size || new_y < 0 || new_y >= size) {
 			System.out.println(-1);
@@ -30,11 +32,13 @@ public class Main {
 			cal(new_x, new_y, size);
 			System.out.println(result);
 		}
+		
+		
 	}
 
-	private static void findLocation(String num, int size) { // num의 x, y 좌표 찾기
+	private static void findLocation(String num, long size) { // num의 x, y 좌표 찾기
 		for (int i = 0; i < num.length(); i++) {
-			int k = num.charAt(i) - '0';
+			long k = num.charAt(i) - '0';
 			if (k == 1) {
 				find_y += size / 2;
 			}
@@ -49,7 +53,7 @@ public class Main {
 		}
 	}
 
-	private static void cal(int new_x, int new_y, int size) {
+	private static void cal(long new_x, long new_y, long size) {
 		if (size > 1) {
 			if (new_x >= size / 2 && new_y >= size / 2) { // 4 사분면인 경우
 				result += "4";
