@@ -1,13 +1,17 @@
-package baekjoon;
+// 예제도 맞지 않음...
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BOJ_1796 {
 
 	static int[][] startToEndIdx;
+	static final int START = 0;
+	static final int END = 1;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,50 +20,53 @@ public class BOJ_1796 {
 		char[] arr = br.readLine().toCharArray();
 
 		// process
-		startToEndIdx = new int[charToIdx('z')][2];
+		// 인덱스가 비어있지 않는 배열 만들기
+		char[] tmp = Arrays.copyOf(arr, arr.length);
+		Arrays.sort(tmp);
+		Map<Character, Integer> charToIdx = new HashMap<>();
+		int count = 0;
+		for (int i = 0; i < tmp.length; i++) {
+			char c = tmp[i];
+			if (!charToIdx.containsKey(c)) {
+				charToIdx.put(c, count++);
+			}
+		}
+		startToEndIdx = new int[charToIdx.size()][2];
 
 		// 각 문자별로 가장 왼쪽 위치와 가장 오른쪽 위치를 저장
-		char startWord = 'z' - 'a';
-		char lastWord = 'a' - 'a';
 		for (int i = 0; i < arr.length; i++) {
 			char c = arr[i];
-			startWord = startWord < c ? startWord : c;
-			lastWord = lastWord > c ? lastWord : c;
-			if (startToEndIdx[charToIdx(c)][0] == -1) {
-				startToEndIdx[charToIdx(c)][0] = i;
-				startToEndIdx[charToIdx(c)][1] = i;
+			if (startToEndIdx[charToIdx.get(c)][START] == -1) {
+				startToEndIdx[charToIdx.get(c)][START] = i;
+				startToEndIdx[charToIdx.get(c)][END] = i;
 			} else {
-				startToEndIdx[charToIdx(c)][0] = Math.min(startToEndIdx[charToIdx(c)][0], i);
-				startToEndIdx[charToIdx(c)][1] = Math.max(startToEndIdx[charToIdx(c)][1], i);
+				startToEndIdx[charToIdx.get(c)][START] = Math.min(startToEndIdx[charToIdx.get(c)][START], i);
+				startToEndIdx[charToIdx.get(c)][END] = Math.max(startToEndIdx[charToIdx.get(c)][END], i);
 			}
 		}
 
-		// 가장 왼쪽 -> 오른쪽으로 가는 경우
-		// 가장 왼쪽 <- 오른쪽으로 가는 경우
-		// 두가지 경우 중 작은 경우의 수를 선택
-		int[][] dp = new int[charToIdx('z')][2];
-		int dist = startToEndIdx[startWord][1] - startToEndIdx[startWord][0];
-		dp[0][0] = startToEndIdx[startWord][1] + dist;
-		dp[0][1] = startToEndIdx[startWord][0] + dist;
-		for (int i = 1; i < startToEndIdx.length; i++) {
-			if (startToEndIdx[i][0] == -1)
-				continue;
+		int[][] dp = new int[charToIdx.size()][2];
+		int dist = startToEndIdx[0][END] - startToEndIdx[0][START];
+		dp[0][START] = startToEndIdx[0][END] + dist; // 0에서 END까지 간 후 다시 START로 옴
+		dp[0][END] = startToEndIdx[0][START] + dist; // 0에서 START까지 간 후 END로 옴
+		for (int i = 1; i < dp.length; i++) {
+			dist = startToEndIdx[i][END] - startToEndIdx[i][START];
 
-			dist = startToEndIdx[i][1] - startToEndIdx[i][0];
-			dp[i][0] = Math.min(dp[startWord][0] + Math.abs(startToEndIdx[i][1] - startToEndIdx[startWord][0]),
-					dp[startWord][1] + Math.abs(startToEndIdx[i][1] - startToEndIdx[startWord][1]) + dist);
-			dp[i][1] = Math.min(dp[startWord][0] + Math.abs(startToEndIdx[i][0] - startToEndIdx[startWord][0]),
-					dp[startWord][1] + Math.abs(startToEndIdx[i][0] - startToEndIdx[startWord][1]) + dist);
+			// 1. 현재 위치의 START로 옴
+			// 이전 위치의 END에서 현재 위치의 START로 오는 경우와
+			// 이전 위치의 START에서 현재 위치의 START로 오는 경우 비교
+			dp[i][START] = Math.min(dp[i - 1][END] + Math.abs(startToEndIdx[i - 1][END] - startToEndIdx[i][END]),
+									dp[i - 1][START] + Math.abs(startToEndIdx[i - 1][START] - startToEndIdx[i][END])) + dist;
 
-			startWord = i;
+			// 2. 현재 위치의 END로 옴
+			// 이전 위치의 END에서 현재 위치의 END로 오는 경우와
+			// 이전 위치의 START에서 현재 위치의 END로 오는 경우 비교
+			dp[i][END] = Math.min(dp[i - 1][END] + Math.abs(startToEndIdx[i - 1][END] - startToEndIdx[i][START]),
+								  dp[i - 1][START] + Math.abs(startToEndIdx[i - 1][START] - startToEndIdx[i][START])) + dist;
 		}
 
 		// output
-		System.out.println(Math.min(dp[lastWord][0], dp[lastWord][1]) + arr.length);
-	}
-
-	private static int charToIdx(char c) {
-		return c - 'a';
+		System.out.println(Math.min(dp[charToIdx.size() - 1][START], dp[charToIdx.size() - 1][END]) + arr.length);
 	}
 
 }
