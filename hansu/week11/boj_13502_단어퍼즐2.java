@@ -70,18 +70,6 @@ public class Main {
         return wordCnt;
     }
 
-    private static void getDict(){
-        getDict1();getDict2();getDict3();getDict4();getDict5();getDict6();getDict7();getDict8();getDict9();getDict10();getDict11();getDict12();getDict13();getDict14();getDict15();getDict16();getDict17();getDict18();getDict19();getDict20();getDict21();getDict22();getDict23();getDict24();getDict25();getDict26();getDict27();getDict28();getDict29();getDict30();
-        getDict31();getDict32();getDict33();getDict34();getDict35();getDict36();getDict37();getDict38();getDict39();getDict40();getDict41();getDict42();getDict43();getDict44();getDict45();getDict46();getDict47();getDict48();getDict49();getDict50();getDict51();getDict52();getDict53();getDict54();getDict55();getDict56();getDict57();getDict58();getDict59();getDict60();
-        getDict61();getDict62();getDict63();getDict64();getDict65();getDict66();getDict67();getDict68();getDict69();getDict70();getDict71();getDict72();getDict73();getDict74();getDict75();getDict76();getDict77();getDict78();getDict79();getDict80();getDict81();getDict82();getDict83();getDict84();getDict85();getDict86();getDict87();getDict88();getDict89();getDict90();
-        getDict91();getDict92();getDict93();getDict94();getDict95();getDict96();getDict97();getDict98();getDict99();getDict100();getDict101();getDict102();getDict103();getDict104();getDict105();getDict106();getDict107();getDict108();getDict109();getDict110();getDict111();getDict112();getDict113();getDict114();getDict115();getDict116();getDict117();getDict118();getDict119();getDict120();
-        getDict121();getDict122();getDict123();getDict124();getDict125();getDict126();getDict127();getDict128();getDict129();getDict130();getDict131();getDict132();getDict133();getDict134();getDict135();getDict136();getDict137();getDict138();getDict139();getDict140();getDict141();getDict142();getDict143();getDict144();getDict145();getDict146();getDict147();getDict148();getDict149();getDict150();
-        getDict151();getDict152();getDict153();getDict154();getDict155();getDict156();getDict157();getDict158();getDict159();getDict160();getDict161();getDict162();getDict163();getDict164();getDict165();getDict166();getDict167();getDict168();getDict169();getDict170();getDict171();getDict172();getDict173();getDict174();getDict175();getDict176();getDict177();getDict178();getDict179();getDict180();
-        getDict181();getDict182();getDict183();getDict184();getDict185();getDict186();getDict187();getDict188();getDict189();getDict190();getDict191();getDict192();getDict193();getDict194();getDict195();getDict196();getDict197();getDict198();getDict199();getDict200();getDict201();getDict202();getDict203();getDict204();getDict205();getDict206();getDict207();getDict208();getDict209();getDict210();
-        getDict211();getDict212();getDict213();getDict214();getDict215();getDict216();getDict217();getDict218();getDict219();getDict220();getDict221();getDict222();getDict223();getDict224();getDict225();getDict226();getDict227();getDict228();getDict229();getDict230();getDict231();getDict232();getDict233();getDict234();getDict235();getDict236();getDict237();getDict238();getDict239();getDict240();
-        getDict241();getDict242();getDict243();getDict244();getDict245();getDict246();
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -96,10 +84,26 @@ public class Main {
 
         getDict();
         System.out.println(getWordCnt());
-//        generateDict();
 //        generateCode();
+//        generateDict();
     }
 
+/******************** 여기부턴 전처리 함수 ********************/
+
+    //getDict() 코드 생성 함수
+    private static void generateCode() {
+        StringBuilder sb = new StringBuilder();
+        int size = 208;
+
+        for (int i = 1; i <= 246; i++){
+            sb.append("getDict").append(i).append("();");
+            if (i % 30 == 0) sb.append('\n');
+        }
+        System.out.println(sb);
+    }
+
+    //getDict1 ~ getDict246() 생성 코드
+    //함수의 최대 길이가 65535B를 넘으면 안돼서 100단어 단위로 쪼갬
     private static void generateDict() throws IOException{
         BufferedReader dict = new BufferedReader(new FileReader("dict.txt")); //24830개
         StringBuilder sb = new StringBuilder();
@@ -124,15 +128,16 @@ public class Main {
         System.out.println(sb.append(");}"));
     }
 
-    private static void generateCode() {
-        StringBuilder sb = new StringBuilder();
-        int size = 208;
-
-        for (int i = 1; i <= 246; i++){
-            sb.append("getDict").append(i).append("();");
-            if (i % 30 == 0) sb.append('\n');
-        }
-        System.out.println(sb);
+    private static void getDict(){
+        getDict1();getDict2();getDict3();getDict4();getDict5();getDict6();getDict7();getDict8();getDict9();getDict10();getDict11();getDict12();getDict13();getDict14();getDict15();getDict16();getDict17();getDict18();getDict19();getDict20();getDict21();getDict22();getDict23();getDict24();getDict25();getDict26();getDict27();getDict28();getDict29();getDict30();
+        getDict31();getDict32();getDict33();getDict34();getDict35();getDict36();getDict37();getDict38();getDict39();getDict40();getDict41();getDict42();getDict43();getDict44();getDict45();getDict46();getDict47();getDict48();getDict49();getDict50();getDict51();getDict52();getDict53();getDict54();getDict55();getDict56();getDict57();getDict58();getDict59();getDict60();
+        getDict61();getDict62();getDict63();getDict64();getDict65();getDict66();getDict67();getDict68();getDict69();getDict70();getDict71();getDict72();getDict73();getDict74();getDict75();getDict76();getDict77();getDict78();getDict79();getDict80();getDict81();getDict82();getDict83();getDict84();getDict85();getDict86();getDict87();getDict88();getDict89();getDict90();
+        getDict91();getDict92();getDict93();getDict94();getDict95();getDict96();getDict97();getDict98();getDict99();getDict100();getDict101();getDict102();getDict103();getDict104();getDict105();getDict106();getDict107();getDict108();getDict109();getDict110();getDict111();getDict112();getDict113();getDict114();getDict115();getDict116();getDict117();getDict118();getDict119();getDict120();
+        getDict121();getDict122();getDict123();getDict124();getDict125();getDict126();getDict127();getDict128();getDict129();getDict130();getDict131();getDict132();getDict133();getDict134();getDict135();getDict136();getDict137();getDict138();getDict139();getDict140();getDict141();getDict142();getDict143();getDict144();getDict145();getDict146();getDict147();getDict148();getDict149();getDict150();
+        getDict151();getDict152();getDict153();getDict154();getDict155();getDict156();getDict157();getDict158();getDict159();getDict160();getDict161();getDict162();getDict163();getDict164();getDict165();getDict166();getDict167();getDict168();getDict169();getDict170();getDict171();getDict172();getDict173();getDict174();getDict175();getDict176();getDict177();getDict178();getDict179();getDict180();
+        getDict181();getDict182();getDict183();getDict184();getDict185();getDict186();getDict187();getDict188();getDict189();getDict190();getDict191();getDict192();getDict193();getDict194();getDict195();getDict196();getDict197();getDict198();getDict199();getDict200();getDict201();getDict202();getDict203();getDict204();getDict205();getDict206();getDict207();getDict208();getDict209();getDict210();
+        getDict211();getDict212();getDict213();getDict214();getDict215();getDict216();getDict217();getDict218();getDict219();getDict220();getDict221();getDict222();getDict223();getDict224();getDict225();getDict226();getDict227();getDict228();getDict229();getDict230();getDict231();getDict232();getDict233();getDict234();getDict235();getDict236();getDict237();getDict238();getDict239();getDict240();
+        getDict241();getDict242();getDict243();getDict244();getDict245();getDict246();
     }
 
     private static void getDict1(){trie.add("AARGH","AARON","ABABA","ABACK","ABANDON","ABANDONED","ABANDONING","ABANDONMENT","ABATEMENT","ABBERLEY","ABBEY","ABBOT","ABBOTT","ABBREVIATED","ABBREVIATIONS","ABC","ABDEL","ABDICATION","ABDOMEN","ABDOMINAL","ABDUCTED","ABDUCTION","ABDUL","ABDULLAH","ABEL","ABERDEEN","ABERRATION","ABERYSTWYTH","ABIDE","ABIDING","ABILITIES","ABILITY","ABINGDON","ABJECT","ABLAZE","ABLE","ABNORMAL","ABNORMALITIES","ABNORMALITY","ABNORMALLY","ABOARD","ABODE","ABOLISH","ABOLISHED","ABOLISHING","ABOLITION","ABOLITIONISTS","ABORIGINAL","ABORTION","ABORTIONS","ABORTIVE","ABOUND","ABOUT","ABOVE","ABRAHAM","ABRASIVE","ABREAST","ABROAD","ABRUPT","ABRUPTLY","ABSENCE","ABSENCES","ABSENT","ABSENTEE","ABSENTEEISM","ABSENTLY","ABSOLUTE","ABSOLUTELY","ABSORB","ABSORBED","ABSORBING","ABSORBS","ABSORPTION","ABSTENTIONS","ABSTINENCE","ABSTRACT","ABSTRACTION","ABSTRACTIONS","ABSTRACTS","ABSURD","ABSURDITY","ABSURDLY","ABUNDANCE","ABUNDANT","ABUNDANTLY","ABUSE","ABUSED","ABUSES","ABUSING","ABUSIVE","ABYSS","ACADEMIC","ACADEMICALLY","ACADEMICS","ACADEMY","ACCELERATE","ACCELERATED","ACCELERATING","ACCELERATION","ACCELERATOR","ACCENT");}
