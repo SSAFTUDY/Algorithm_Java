@@ -5,7 +5,6 @@ import java.util.*;
 
 
 public class BOJ_5052 {
-
 	static class TrieNode {
 		Map<Character, TrieNode> childNode = new HashMap<>();
 		boolean terminal;
