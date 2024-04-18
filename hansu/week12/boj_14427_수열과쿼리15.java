@@ -38,13 +38,13 @@ class SegmentTree{
     }
 
     private final Node[] tree;
-    private final int N;
+    private final int leafLen;
 
     //리프노드가 arr인 완전이진트리 생성
     public SegmentTree(int[] arr){
-        N = arr.length;
-        tree = new Node[Integer.highestOneBit(N) << 2];
-        init(arr, 1, 0, (Integer.highestOneBit(N) << 1) - 1);
+        leafLen = Integer.highestOneBit(arr.length) << 1;
+        tree = new Node[leafLen << 1];
+        init(arr, 1, 1, leafLen);
     }
 
     //루트노드(tree[1])가 최소 노드
@@ -53,18 +53,18 @@ class SegmentTree{
     }
 
     public void update(int idx, int newVal){
-        update(idx, newVal, 1, 0, (Integer.highestOneBit(N) << 1) - 1);
+        update(idx, newVal, 1, 1, leafLen);
     }
 
     //재귀로 초기화
     //리프노드는 arr, 비리프노드는 arr의 [start,end] 범위 내의 최소 노드를 나타냄
     private Node init(int[] arr, int node, int start, int end){
-        if (start >= arr.length){
+        if (start > arr.length){
             return null;
         }
 
         if (start == end){
-            return tree[node] = new Node(start, arr[start]);
+            return tree[node] = new Node(start, arr[start - 1]);
         }
 
         Node left = init(arr, 2 * node, start, (start + end) / 2);
@@ -109,8 +109,8 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
         int M = Integer.parseInt(br.readLine());
-        int[] arr = new int[N];
 
+        int[] arr = new int[N];
         for (int i = 0; i < N; i++){
             arr[i] = Integer.parseInt(st.nextToken());
         }
@@ -120,11 +120,12 @@ public class Main {
             st = new StringTokenizer(br.readLine());
 
             if (st.nextToken().equals("1")){
-                int idx = Integer.parseInt(st.nextToken()) - 1;
+                int idx = Integer.parseInt(st.nextToken());
                 int newVal = Integer.parseInt(st.nextToken());
+                
                 segmentTree.update(idx, newVal);
             } else {
-                sb.append(segmentTree.getMinIdx() + 1).append("\n");
+                sb.append(segmentTree.getMinIdx()).append("\n");
             }
         }
 
