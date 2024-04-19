@@ -1,6 +1,6 @@
 /**
- * 메모리: 111,696kb
- * 시간: 708ms
+ * 메모리: 97,696kb
+ * 시간: 648ms
  */
 import java.io.*;
 import java.util.*;
@@ -28,11 +28,6 @@ class SegmentTree{
             }
 
             return new Node(Math.min(n1.minVal, n2.minVal), Math.max(n1.maxVal, n2.maxVal));
-        }
-
-        @Override
-        public String toString() {
-            return minVal + " " + maxVal;
         }
     }
 
@@ -102,7 +97,8 @@ public class Main {
             int from = Integer.parseInt(st.nextToken());
             int to = Integer.parseInt(st.nextToken());
 
-            sb.append(segmentTree.getNodeBetween(from, to)).append('\n');
+            SegmentTree.Node node = segmentTree.getNodeBetween(from, to);
+            sb.append(node.minVal).append(' ').append(node.maxVal).append('\n');
         }
         System.out.print(sb);
     }
